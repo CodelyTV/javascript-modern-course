@@ -3,7 +3,7 @@ import "../css/custom.css";
 
 import $ from "jquery";
 
-import StringFunctions from "./utils";
+import { countChars } from "./utils";
 
 var CodelyBackoffice = {
   /*******************************************************************************************************************
@@ -30,12 +30,10 @@ var CodelyBackoffice = {
         .closest(".form-field")
         .find("textarea,input");
 
-      char_counter_container.html(StringFunctions.countChars(form_field.val()));
+      char_counter_container.html(countChars(form_field.val()));
 
       form_field.on("keyup", function () {
-        char_counter_container.html(
-          StringFunctions.countChars(form_field.val())
-        );
+        char_counter_container.html(countChars(form_field.val()));
       });
     });
 
