@@ -43,6 +43,7 @@
     "not IE 11"
   ],
   "dependencies": {
-    "http-server": "^0.12.3"
+    "http-server": "^0.12.3",
+    "jquery": "^3.6.0"
   }
 }
