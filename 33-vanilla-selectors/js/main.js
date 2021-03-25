@@ -13,8 +13,12 @@ var CodelyBackoffice = {
     /**
      * Show/hide an element based on a change in another field.
      */
-    $(".js-trigger-container").on("click", function () {
-      $("#" + $(this).attr("rel")).toggle(500);
+    var trigger = document.querySelector(".js-trigger-container");
+
+    trigger.addEventListener("click", function () {
+      document
+        .getElementById(trigger.getAttribute("rel"))
+        .classList.toggle("hidden");
     });
   },
   /*******************************************************************************************************************
@@ -24,61 +28,76 @@ var CodelyBackoffice = {
     /**
      * Count character in selected fields
      */
-    $(".js-count-content").each(function () {
-      var form_field = $(this).parent().find(".js-form-control");
-      var char_counter_container = $(".js-count-chars", this);
+    var contentCounters = document.querySelectorAll(".js-count-content");
 
-      char_counter_container.html(countChars(form_field.val()));
+    for (var i = 0; i < contentCounters.length; ++i) {
+      var form_field = contentCounters[i].parentElement.querySelector(
+        ".js-form-control"
+      );
+      var char_counter_container = contentCounters[i].querySelector(
+        ".js-count-chars"
+      );
 
-      form_field.on("keyup", function () {
-        char_counter_container.html(countChars(form_field.val()));
+      char_counter_container.innerHTML = countChars(form_field.value);
+
+      form_field.addEventListener("keyup", function () {
+        char_counter_container.innerHTML = countChars(form_field.value);
       });
-    });
+    }
 
     /**
      * Load select data
      */
-    $(".js-load-data").each(function () {
-      var select = $(this);
+    var dataLoaders = document.querySelectorAll(".js-load-data");
 
+    for (var j = 0; j < dataLoaders.length; ++j) {
+      var select = dataLoaders[j];
+      console.log(select);
+
+      // eslint-disable-next-line jquery/no-ajax
       $.getJSON(
         "http://" +
           ("localhost" == document.domain
             ? "localhost:8080"
             : document.domain) +
           "/data/" +
-          $(this).attr("data-type") +
+          select.getAttribute("data-type") +
           ".json",
         function (json) {
           if (json && json.data) {
             for (var i = 0, len = json.data.length; i < len; i++) {
-              select.append($("<option></option>").text(json.data[i].name));
+              var option = document.createElement("option");
+              option.textContent = json.data[i].name;
+              select.append(option);
             }
           } else {
             console.warn(
-              "Could not find" + $(this).attr("data-type") + ".json"
+              "Could not find" + select.getAttribute("data-type") + ".json"
             );
           }
         }
       );
-    });
+    }
   },
   /*******************************************************************************************************************
    * Filter courses by category
    ******************************************************************************************************************/
   initCategoryFilter: function () {
-    var filter = $("#category");
+    var filter = document.getElementById("category");
 
-    filter.on("change", function () {
-      var category = $(this).val();
+    filter.addEventListener("change", function () {
+      var category = this.value;
 
-      $(".js-filtered-item").each(function () {
-        if (category && category !== $(this).attr("data-category")) {
-          $(this).addClass("hidden");
+      var elementsToFilter = document.querySelectorAll(".js-filtered-item");
+
+      for (var i = 0; i < elementsToFilter.length; ++i) {
+        var element = elementsToFilter[i];
+        if (category && category !== element.getAttribute("data-category")) {
+          element.classList.add("hidden");
         } else {
-          $(this).removeClass("hidden");
+          element.classList.remove("hidden");
         }
-      });
+      }
     });
   },
   /*******************************************************************************************************************
@@ -86,88 +105,99 @@ var CodelyBackoffice = {
    ******************************************************************************************************************/
   initUserForm: function () {
     function validateRequiredField(field) {
-      var isValid = !!field.val();
+      var isValid = !!field.value;
 
       if (!isValid) {
-        field.addClass("error");
+        field.classList.add("error");
       }
       return isValid;
     }
 
     function validateEmail() {
-      var field = $("#email");
+      var field = document.getElementById("email");
       var isValid = new RegExp(
         "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
-      ).test(field.val());
+      ).test(field.value);
 
       if (!isValid) {
-        field.addClass("error");
+        field.classList.add("error");
       }
       return isValid;
     }
 
     function validateDob() {
-      var field = $("#dob");
-      var date = +new Date(field.val());
+      var field = document.getElementById("dob");
+      var date = +new Date(field.value);
       var now = +new Date();
       var isValid = Math.abs(new Date(now - date).getUTCFullYear() - 1970) > 18;
 
       if (!isValid) {
-        field.addClass("error");
+        field.classList.add("error");
       }
       return isValid;
     }
 
     function validateBio() {
-      var field = $("#bio");
-      var fieldLength = field.val().length;
-      var isValid = fieldLength > 0 && field.val().length <= 200;
+      var field = document.getElementById("bio");
+      var fieldLength = field.value.length;
+      var isValid = fieldLength > 0 && field.value.length <= 200;
 
       if (!isValid) {
-        field.addClass("error");
+        field.classList.add("error");
       }
       return isValid;
     }
 
     function isFormValid() {
-      $("#user_form_error").addClass("hidden");
-      $(".js-form-control").each(function () {
-        $(this).removeClass("error");
-      });
+      document.getElementById("user_form_error").classList.add("hidden");
+
+      var formControls = document.querySelectorAll(".js-form-control");
+
+      for (var i = 0; i < formControls.length; ++i) {
+        formControls[i].classList.remove("error");
+      }
 
       var isValid =
-        validateRequiredField($("#first_name")) &&
-        validateRequiredField($("#last_name")) &&
+        validateRequiredField(document.getElementById("first_name")) &&
+        validateRequiredField(document.getElementById("last_name")) &&
         validateEmail() &&
         validateDob() &&
-        validateRequiredField($("#country")) &&
+        validateRequiredField(document.getElementById("country")) &&
         validateBio();
 
       if (!isValid) {
-        $("#user_form_error").removeClass("hidden");
+        document.getElementById("user_form_error").classList.remove("hidden");
       }
 
       return isValid;
     }
 
-    $("#user_form").on("submit", function (ev) {
-      ev.preventDefault();
+    document
+      .getElementById("user_form")
+      .addEventListener("submit", function (ev) {
+        ev.preventDefault();
 
-      if (isFormValid()) {
-        $(this).addClass("hidden");
-        $("#thanks").removeClass("hidden");
-      }
-    });
+        if (isFormValid()) {
+          this.classList.add("hidden");
+          document.getElementById("thanks").classList.remove("hidden");
+        }
+      });
   },
 };
 
 /**
  * Init functions
  */
-$(function () {
+window.addEventListener("DOMContentLoaded", () => {
   CodelyBackoffice.initCommon();
 
-  if ($("#category").length) CodelyBackoffice.initCategoryFilter();
-  if ($("form").length) CodelyBackoffice.initForms();
-  if ($("#user_form").length) CodelyBackoffice.initUserForm();
+  if (document.getElementById("category")) {
+    CodelyBackoffice.initCategoryFilter();
+  }
+  if (document.querySelector("form")) {
+    CodelyBackoffice.initForms();
+  }
+  if (document.getElementById("user_form")) {
+    CodelyBackoffice.initUserForm();
+  }
 });
