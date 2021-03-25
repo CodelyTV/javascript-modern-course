@@ -13,7 +13,7 @@ var CodelyBackoffice = {
     /**
      * Show/hide an element based on a change in another field.
      */
-    $(".trigger-container").on("click", function () {
+    $(".js-trigger-container").on("click", function () {
       $("#" + $(this).attr("rel")).toggle(500);
     });
   },
@@ -24,11 +24,9 @@ var CodelyBackoffice = {
     /**
      * Count character in selected fields
      */
-    $("form .form-field div.count-content").each(function () {
-      var char_counter_container = $("span.count-chars", this);
-      var form_field = char_counter_container
-        .closest(".form-field")
-        .find("textarea,input");
+    $(".js-count-content").each(function () {
+      var form_field = $(this).parent().find(".js-form-control");
+      var char_counter_container = $(".js-count-chars", this);
 
       char_counter_container.html(countChars(form_field.val()));
 
@@ -40,7 +38,7 @@ var CodelyBackoffice = {
     /**
      * Load select data
      */
-    $("form .form-field select.load-data").each(function () {
+    $(".js-load-data").each(function () {
       var select = $(this);
 
       $.getJSON(
@@ -74,7 +72,7 @@ var CodelyBackoffice = {
     filter.on("change", function () {
       var category = $(this).val();
 
-      $(".course-card").each(function () {
+      $(".js-filtered-item").each(function () {
         if (category && category !== $(this).attr("data-category")) {
           $(this).addClass("hidden");
         } else {
@@ -133,7 +131,7 @@ var CodelyBackoffice = {
 
     function isFormValid() {
       $("#user_form_error").addClass("hidden");
-      $(".form-field .error").each(function () {
+      $(".js-form-control").each(function () {
         $(this).removeClass("error");
       });
 

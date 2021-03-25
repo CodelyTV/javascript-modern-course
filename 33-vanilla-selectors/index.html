@@ -11,8 +11,8 @@
     <div>
       <h1>Courses</h1>
       <div>
-        <button class="trigger-container" rel="filters">Show filters</button>
-        <div id="filters" style="display: none">
+        <button class="js-trigger-container" rel="filters">Show filters</button>
+        <div id="filters" class="hidden">
           <label for="category">Category:</label>
 
           <select id="category">
@@ -25,7 +25,7 @@
         </div>
       </div>
       <div id="courses" class="courses-grid">
-        <div class="course-card" data-category="frontend">
+        <div class="course-card js-filtered-item" data-category="frontend">
           <img
             class="course-card__img"
             alt="Vue 3: Novedades aplicadas al mundo real"
@@ -47,7 +47,7 @@
             </p>
           </div>
         </div>
-        <div class="course-card" data-category="tooling">
+        <div class="course-card js-filtered-item" data-category="tooling">
           <img
             class="course-card__img"
             alt="Makefiles"
@@ -69,7 +69,7 @@
             </p>
           </div>
         </div>
-        <div class="course-card" data-category="tooling">
+        <div class="course-card js-filtered-item" data-category="tooling">
           <img
             class="course-card__img"
             alt="Bash para el día a día"
@@ -88,7 +88,7 @@
             <p>Aprende a usar la navaja suiza de los programadores 😬</p>
           </div>
         </div>
-        <div class="course-card" data-category="backend">
+        <div class="course-card js-filtered-item" data-category="backend">
           <img
             class="course-card__img"
             alt="DDD en Java"
@@ -111,7 +111,7 @@
             </p>
           </div>
         </div>
-        <div class="course-card" data-category="backend">
+        <div class="course-card js-filtered-item" data-category="backend">
           <img
             class="course-card__img"
             alt="DDD en PHP"
@@ -134,7 +134,7 @@
             </p>
           </div>
         </div>
-        <div class="course-card" class="tooling">
+        <div class="course-card js-filtered-item" class="tooling">
           <img
             class="course-card__img"
             alt="Terminal 100% productiva con Zsh"
@@ -156,7 +156,7 @@
             </p>
           </div>
         </div>
-        <div class="course-card" data-category="frontend">
+        <div class="course-card js-filtered-item" data-category="frontend">
           <img
             class="course-card__img"
             alt="Buenas prácticas con CSS: Layouts"
@@ -186,31 +186,35 @@
       <form id="user_form">
         <div class="form-field">
           <label for="first_name">First name</label>
-          <input type="text" id="first_name" />
+          <input type="text" id="first_name" class="js-form-control" />
         </div>
         <div class="form-field">
           <label for="last_name">Last name</label>
-          <input type="text" id="last_name" />
+          <input type="text" id="last_name" class="js-form-control" />
         </div>
         <div class="form-field">
           <label for="email">Email</label>
-          <input type="text" id="email" />
+          <input type="text" id="email" class="js-form-control" />
         </div>
         <div class="form-field">
           <label for="dob">Date of birth</label>
-          <input type="date" id="dob" class="datepicker-cmy" />
+          <input type="date" id="dob" class="datepicker-cmy js-form-control" />
         </div>
         <div class="form-field">
           <label for="country">Country</label>
-          <select id="country" class="load-data" data-type="countries">
+          <select
+            id="country"
+            class="js-load-data js-form-control"
+            data-type="countries"
+          >
             <option value="">Select country</option>
           </select>
         </div>
         <div class="form-field">
           <label for="bio">Tell us a bit about yourself</label>
-          <textarea id="bio"></textarea>
-          <div class="count-content">
-            <span class="count-chars">0</span>/200
+          <textarea id="bio" class="js-form-control"></textarea>
+          <div class="js-count-content">
+            <span class="js-count-chars">0</span>/200
           </div>
         </div>
         <div id="user_form_error" class="error hidden">
