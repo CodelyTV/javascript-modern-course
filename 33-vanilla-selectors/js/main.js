@@ -3,7 +3,7 @@ import "../css/custom.css";
 
 import $ from "jquery";
 
-import { countChars } from "./utils";
+import { countChars, iterateNodes } from "./utils";
 
 var CodelyBackoffice = {
   /*******************************************************************************************************************
@@ -30,30 +30,23 @@ var CodelyBackoffice = {
      */
     var contentCounters = document.querySelectorAll(".js-count-content");
 
-    for (var i = 0; i < contentCounters.length; ++i) {
-      var form_field = contentCounters[i].parentElement.querySelector(
-        ".js-form-control"
-      );
-      var char_counter_container = contentCounters[i].querySelector(
-        ".js-count-chars"
-      );
+    iterateNodes(contentCounters, function (counter) {
+      var form_field = counter.parentElement.querySelector(".js-form-control");
+      var char_counter_container = counter.querySelector(".js-count-chars");
 
       char_counter_container.innerHTML = countChars(form_field.value);
 
       form_field.addEventListener("keyup", function () {
         char_counter_container.innerHTML = countChars(form_field.value);
       });
-    }
+    });
 
     /**
      * Load select data
      */
     var dataLoaders = document.querySelectorAll(".js-load-data");
 
-    for (var j = 0; j < dataLoaders.length; ++j) {
-      var select = dataLoaders[j];
-      console.log(select);
-
+    iterateNodes(dataLoaders, function (select) {
       // eslint-disable-next-line jquery/no-ajax
       $.getJSON(
         "http://" +
@@ -77,7 +70,7 @@ var CodelyBackoffice = {
           }
         }
       );
-    }
+    });
   },
   /*******************************************************************************************************************
    * Filter courses by category
@@ -90,14 +83,13 @@ var CodelyBackoffice = {
 
       var elementsToFilter = document.querySelectorAll(".js-filtered-item");
 
-      for (var i = 0; i < elementsToFilter.length; ++i) {
-        var element = elementsToFilter[i];
+      iterateNodes(elementsToFilter, function (element) {
         if (category && category !== element.getAttribute("data-category")) {
           element.classList.add("hidden");
         } else {
           element.classList.remove("hidden");
         }
-      }
+      });
     });
   },
   /*******************************************************************************************************************
@@ -153,9 +145,9 @@ var CodelyBackoffice = {
 
       var formControls = document.querySelectorAll(".js-form-control");
 
-      for (var i = 0; i < formControls.length; ++i) {
-        formControls[i].classList.remove("error");
-      }
+      iterateNodes(formControls, function (control) {
+        control.classList.remove("error");
+      });
 
       var isValid =
         validateRequiredField(document.getElementById("first_name")) &&
