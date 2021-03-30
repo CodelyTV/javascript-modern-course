@@ -5,10 +5,12 @@
     "node": true
   },
   "plugins": [
-    "eslint-plugin-html"
+    "eslint-plugin-html",
+    "jquery"
   ],
   "extends": [
     "eslint:recommended",
+    "plugin:jquery/deprecated",
     "plugin:prettier/recommended"
   ]
 }
