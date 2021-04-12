@@ -9,7 +9,7 @@ var CodelyBackoffice = {
   /*******************************************************************************************************************
    * Common features
    ******************************************************************************************************************/
-  initCommon: function () {
+  initCommon() {
     /**
      * Show/hide an element based on a change in another field.
      */
@@ -24,7 +24,7 @@ var CodelyBackoffice = {
   /*******************************************************************************************************************
    * Common forms functions
    ******************************************************************************************************************/
-  initForms: function () {
+  initForms() {
     /**
      * Count character in selected fields
      */
@@ -56,11 +56,11 @@ var CodelyBackoffice = {
           "/data/" +
           select.getAttribute("data-type") +
           ".json",
-        function (json) {
-          if (json && json.data) {
-            for (var i = 0, len = json.data.length; i < len; i++) {
+        function ({ data }) {
+          if (data) {
+            for (var i = 0, len = data.length; i < len; i++) {
               var option = document.createElement("option");
-              option.textContent = json.data[i].name;
+              option.textContent = data[i].name;
               select.append(option);
             }
           } else {
@@ -75,7 +75,7 @@ var CodelyBackoffice = {
   /*******************************************************************************************************************
    * Filter courses by category
    ******************************************************************************************************************/
-  initCategoryFilter: function () {
+  initCategoryFilter() {
     var filter = document.getElementById("category");
 
     filter.addEventListener("change", function () {
@@ -95,7 +95,7 @@ var CodelyBackoffice = {
   /*******************************************************************************************************************
    * Create user form
    ******************************************************************************************************************/
-  initUserForm: function () {
+  initUserForm() {
     function validateRequiredField(field) {
       var isValid = !!field.value;
 
@@ -188,13 +188,13 @@ var CodelyBackoffice = {
         var form = ev.target;
 
         if (isFormValid()) {
-          createUser(form, function (response) {
-            if (!response.success) {
+          createUser(form, function ({ success, data: newUser }) {
+            if (!success) {
               handleFormError();
               return;
             }
 
-            handleFormSuccess(form, response.data);
+            handleFormSuccess(form, newUser);
           });
         }
       });
