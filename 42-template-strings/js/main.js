@@ -47,29 +47,22 @@ var CodelyBackoffice = {
     var dataLoaders = document.querySelectorAll(".js-load-data");
 
     iterateNodes(dataLoaders, function (select) {
+      var domain =
+        document.domain == "localhost" ? "localhost:8080" : document.domain;
+      var type = select.getAttribute("data-type");
+
       // eslint-disable-next-line jquery/no-ajax
-      $.getJSON(
-        "http://" +
-          ("localhost" == document.domain
-            ? "localhost:8080"
-            : document.domain) +
-          "/data/" +
-          select.getAttribute("data-type") +
-          ".json",
-        function ({ data }) {
-          if (data) {
-            for (var i = 0, len = data.length; i < len; i++) {
-              var option = document.createElement("option");
-              option.textContent = data[i].name;
-              select.append(option);
-            }
-          } else {
-            console.error(
-              "Could not find" + select.getAttribute("data-type") + ".json"
-            );
+      $.getJSON(`http://${domain}/data/${type}.json`, function ({ data }) {
+        if (data) {
+          for (var i = 0, len = data.length; i < len; i++) {
+            var option = document.createElement("option");
+            option.textContent = data[i].name;
+            select.append(option);
           }
+        } else {
+          console.error(`Could not find ${type}.json`);
         }
-      );
+      });
     });
   },
   /*******************************************************************************************************************
@@ -169,9 +162,8 @@ var CodelyBackoffice = {
       var title = thanksBlock.querySelector("h3");
       var content = thanksBlock.querySelector("p");
 
-      title.innerHTML = "Thank you " + newUser.firstName + " for registering!";
-      content.innerHTML =
-        "We have sent a confirmation email to " + newUser.email;
+      title.innerHTML = `Thank you ${newUser.firstName} for registering!`;
+      content.innerHTML = `We sent a confirmation email to ${newUser.email}`;
 
       form.classList.add("hidden");
       thanksBlock.classList.remove("hidden");
