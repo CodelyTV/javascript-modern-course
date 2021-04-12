@@ -157,13 +157,29 @@ var CodelyBackoffice = {
       return isValid;
     }
 
+    function sanitize(strings, ...values) {
+      var output = "";
+      for (var index = 0; index < values.length; index++) {
+        var valueString = values[index].toString();
+
+        if (valueString.indexOf(">") !== -1) {
+          valueString = "-";
+        }
+
+        output += strings[index] + valueString;
+      }
+
+      output += strings[index];
+      return output;
+    }
+
     function handleFormSuccess(form, newUser) {
       var thanksBlock = document.getElementById("thanks");
       var title = thanksBlock.querySelector("h3");
       var content = thanksBlock.querySelector("p");
 
-      title.innerHTML = `Thank you ${newUser.firstName} for registering!`;
-      content.innerHTML = `We sent a confirmation email to ${newUser.email}`;
+      title.innerHTML = sanitize`Thank you ${newUser.firstName} for registering!`;
+      content.innerHTML = sanitize`We sent a confirmation email to <strong>${newUser.email}</strong>`;
 
       form.classList.add("hidden");
       thanksBlock.classList.remove("hidden");
