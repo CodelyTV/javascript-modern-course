@@ -81,9 +81,9 @@ const CodelyBackoffice = {
         'input[type="checkbox"]:checked'
       );
 
-      for (let i = 0; i < checkboxes.length; i++) {
-        selectedValues.push(checkboxes[i].value);
-      }
+      checkboxes.forEach(function (checkbox) {
+        selectedValues.push(checkbox.value);
+      });
 
       return selectedValues;
     }
@@ -97,12 +97,10 @@ const CodelyBackoffice = {
 
       const elementsToFilter = document.querySelectorAll(".js-filtered-item");
 
-      for (let i = 0; i < elementsToFilter.length; i++) {
-        const element = elementsToFilter[i];
-
+      elementsToFilter.forEach(function (element) {
         if (categories.length === 0) {
           show(element);
-          continue;
+          return;
         }
 
         const elementCategory = element.getAttribute("data-category");
@@ -112,7 +110,7 @@ const CodelyBackoffice = {
         } else {
           hide(element);
         }
-      }
+      });
     }
 
     filter.addEventListener("change", filterElements);
