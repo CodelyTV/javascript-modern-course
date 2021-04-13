@@ -89,7 +89,7 @@ const CodelyBackoffice = {
     }
 
     function isInList(item, list) {
-      return list.indexOf(item) !== -1;
+      return list.includes(item);
     }
 
     function filterElements() {
