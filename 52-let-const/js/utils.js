@@ -7,7 +7,7 @@ export function countChars(str) {
 }
 
 export function iterateNodes(array, callback) {
-  for (var i = 0; i < array.length; ++i) {
+  for (let i = 0; i < array.length; ++i) {
     callback(array[i]);
   }
 }
