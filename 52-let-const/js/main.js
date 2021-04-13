@@ -5,7 +5,7 @@ import $ from "jquery";
 
 import { countChars, iterateNodes, createUser } from "./utils";
 
-var CodelyBackoffice = {
+const CodelyBackoffice = {
   /*******************************************************************************************************************
    * Common features
    ******************************************************************************************************************/
@@ -13,7 +13,7 @@ var CodelyBackoffice = {
     /**
      * Show/hide an element based on a change in another field.
      */
-    var trigger = document.querySelector(".js-trigger-container");
+    const trigger = document.querySelector(".js-trigger-container");
 
     trigger.addEventListener("click", function () {
       document
@@ -28,14 +28,14 @@ var CodelyBackoffice = {
     /**
      * Count character in selected fields
      */
-    var contentCounters = document.querySelectorAll(".js-count-content");
+    const contentCounters = document.querySelectorAll(".js-count-content");
 
-    for (var i = 0; i < contentCounters.length; ++i) {
-      var counter = contentCounters[i]
-      var form_field = counter.parentElement.querySelector(
+    for (let i = 0; i < contentCounters.length; ++i) {
+      const counter = contentCounters[i];
+      const form_field = counter.parentElement.querySelector(
         ".js-form-control"
       );
-      var char_counter_container = counter.querySelector(".js-count-chars");
+      const char_counter_container = counter.querySelector(".js-count-chars");
 
       char_counter_container.innerHTML = countChars(form_field.value);
 
@@ -47,18 +47,18 @@ var CodelyBackoffice = {
     /**
      * Load select data
      */
-    var dataLoaders = document.querySelectorAll(".js-load-data");
+    const dataLoaders = document.querySelectorAll(".js-load-data");
 
     iterateNodes(dataLoaders, function (select) {
-      var domain =
+      const domain =
         document.domain == "localhost" ? "localhost:8080" : document.domain;
-      var type = select.getAttribute("data-type");
+      const type = select.getAttribute("data-type");
 
       // eslint-disable-next-line jquery/no-ajax
       $.getJSON(`http://${domain}/data/${type}.json`, function ({ data }) {
         if (data) {
-          for (var i = 0, len = data.length; i < len; i++) {
-            var option = document.createElement("option");
+          for (let i = 0, len = data.length; i < len; i++) {
+            const option = document.createElement("option");
             option.textContent = data[i].name;
             select.append(option);
           }
@@ -72,12 +72,12 @@ var CodelyBackoffice = {
    * Filter courses by category
    ******************************************************************************************************************/
   initCategoryFilter() {
-    var filter = document.getElementById("category");
+    const filter = document.getElementById("category");
 
     filter.addEventListener("change", function () {
-      var category = this.value;
+      const category = this.value;
 
-      var elementsToFilter = document.querySelectorAll(".js-filtered-item");
+      const elementsToFilter = document.querySelectorAll(".js-filtered-item");
 
       iterateNodes(elementsToFilter, function (element) {
         if (category && category !== element.getAttribute("data-category")) {
@@ -93,7 +93,7 @@ var CodelyBackoffice = {
    ******************************************************************************************************************/
   initUserForm() {
     function validateRequiredField(field) {
-      var isValid = !!field.value;
+      const isValid = !!field.value;
 
       if (!isValid) {
         field.classList.add("error");
@@ -102,8 +102,8 @@ var CodelyBackoffice = {
     }
 
     function validateEmail() {
-      var field = document.getElementById("email");
-      var isValid = new RegExp(
+      const field = document.getElementById("email");
+      const isValid = new RegExp(
         "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
       ).test(field.value);
 
@@ -114,10 +114,11 @@ var CodelyBackoffice = {
     }
 
     function validateDob() {
-      var field = document.getElementById("dob");
-      var date = +new Date(field.value);
-      var now = +new Date();
-      var isValid = Math.abs(new Date(now - date).getUTCFullYear() - 1970) > 18;
+      const field = document.getElementById("dob");
+      const date = +new Date(field.value);
+      const now = +new Date();
+      const isValid =
+        Math.abs(new Date(now - date).getUTCFullYear() - 1970) > 18;
 
       if (!isValid) {
         field.classList.add("error");
@@ -126,9 +127,9 @@ var CodelyBackoffice = {
     }
 
     function validateBio() {
-      var field = document.getElementById("bio");
-      var fieldLength = field.value.length;
-      var isValid = fieldLength > 0 && field.value.length <= 200;
+      const field = document.getElementById("bio");
+      const fieldLength = field.value.length;
+      const isValid = fieldLength > 0 && field.value.length <= 200;
 
       if (!isValid) {
         field.classList.add("error");
@@ -139,13 +140,13 @@ var CodelyBackoffice = {
     function isFormValid() {
       document.getElementById("user_form_error").classList.add("hidden");
 
-      var formControls = document.querySelectorAll(".js-form-control");
+      const formControls = document.querySelectorAll(".js-form-control");
 
       iterateNodes(formControls, function (control) {
         control.classList.remove("error");
       });
 
-      var isValid =
+      const isValid =
         validateRequiredField(document.getElementById("first_name")) &&
         validateRequiredField(document.getElementById("last_name")) &&
         validateEmail() &&
@@ -161,9 +162,10 @@ var CodelyBackoffice = {
     }
 
     function sanitize(strings, ...values) {
-      var output = "";
+      let output = "";
+      // eslint-disable-next-line no-var
       for (var index = 0; index < values.length; index++) {
-        var valueString = values[index].toString();
+        let valueString = values[index].toString();
 
         if (valueString.indexOf(">") !== -1) {
           valueString = "-";
@@ -177,9 +179,9 @@ var CodelyBackoffice = {
     }
 
     function handleFormSuccess(form, newUser) {
-      var thanksBlock = document.getElementById("thanks");
-      var title = thanksBlock.querySelector("h3");
-      var content = thanksBlock.querySelector("p");
+      const thanksBlock = document.getElementById("thanks");
+      const title = thanksBlock.querySelector("h3");
+      const content = thanksBlock.querySelector("p");
 
       title.innerHTML = sanitize`Thank you ${newUser.firstName} for registering!`;
       content.innerHTML = sanitize`We sent a confirmation email to <strong>${newUser.email}</strong>`;
@@ -196,7 +198,7 @@ var CodelyBackoffice = {
       .getElementById("user_form")
       .addEventListener("submit", function (ev) {
         ev.preventDefault();
-        var form = ev.target;
+        const form = ev.target;
 
         if (isFormValid()) {
           createUser(form, function ({ success, data: newUser }) {
