@@ -3,7 +3,7 @@ import "../css/custom.css";
 
 import $ from "jquery";
 
-import { countChars, iterateNodes, createUser, show, hide } from "./utils";
+import { countChars, createUser, show, hide } from "./utils";
 
 const CodelyBackoffice = {
   /*******************************************************************************************************************
@@ -49,7 +49,7 @@ const CodelyBackoffice = {
      */
     const dataLoaders = document.querySelectorAll(".js-load-data");
 
-    iterateNodes(dataLoaders, function (select) {
+    dataLoaders.forEach(function (select) {
       const domain =
         document.domain == "localhost" ? "localhost:8080" : document.domain;
       const type = select.getAttribute("data-type");
@@ -167,7 +167,7 @@ const CodelyBackoffice = {
 
       const formControls = document.querySelectorAll(".js-form-control");
 
-      iterateNodes(formControls, function (control) {
+      formControls.forEach(function (control) {
         control.classList.remove("error");
       });
 
