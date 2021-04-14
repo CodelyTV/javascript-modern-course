@@ -6,12 +6,6 @@ export function countChars(str) {
   return str.split("").length;
 }
 
-export function iterateNodes(array, callback) {
-  for (let i = 0; i < array.length; ++i) {
-    callback(array[i]);
-  }
-}
-
 export function show(element) {
   element.classList.remove("hidden");
 }
