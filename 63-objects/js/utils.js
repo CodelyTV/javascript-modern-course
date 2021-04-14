@@ -15,15 +15,16 @@ export function hide(element) {
 }
 
 export function createUser(form, callback) {
+  const newUser = Object.keys(form.elements).reduce((user, key) => {
+    const element = form.elements[key];
+    if (element.id) {
+      user[element.id] = element.value;
+    }
+    return user;
+  }, {});
+
   callback({
     success: true,
-    data: {
-      firstName: form.elements.firstName.value,
-      lastName: form.elements.lastName.value,
-      email: form.elements.email.value,
-      dob: form.elements.dob.value,
-      country: form.elements.country.value,
-      bio: form.elements.bio.value,
-    },
+    data: newUser,
   });
 }
