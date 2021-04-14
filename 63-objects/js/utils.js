@@ -15,8 +15,7 @@ export function hide(element) {
 }
 
 export function createUser(form, callback) {
-  const newUser = Object.keys(form.elements).reduce((user, key) => {
-    const element = form.elements[key];
+  const newUser = Object.values(form.elements).reduce((user, element) => {
     if (element.id) {
       user[element.id] = element.value;
     }
