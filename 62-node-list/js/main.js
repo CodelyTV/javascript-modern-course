@@ -75,15 +75,13 @@ const CodelyBackoffice = {
     const filter = document.getElementById("category");
 
     function getSelectedValues(node) {
-      const selectedValues = [];
-
       const checkboxes = node.querySelectorAll(
         'input[type="checkbox"]:checked'
       );
 
-      for (const checkbox of checkboxes) {
-        selectedValues.push(checkbox.value);
-      }
+      const selectedValues = Array.from(checkboxes).map(function (checkbox) {
+        return checkbox.value;
+      });
 
       return selectedValues;
     }
