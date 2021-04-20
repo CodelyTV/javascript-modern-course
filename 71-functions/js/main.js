@@ -79,10 +79,9 @@ const CodelyBackoffice = {
         'input[type="checkbox"]:checked'
       );
 
-      // one liner
-      const selectedValues = Array.from(checkboxes).map(function (checkbox) {
-        return checkbox.value;
-      });
+      const selectedValues = Array.from(checkboxes).map(
+        (checkbox) => checkbox.value
+      );
 
       return selectedValues;
     }
@@ -212,33 +211,27 @@ const CodelyBackoffice = {
         ev.preventDefault();
 
         if (isFormValid()) {
-          createUser(
-            this,
-            function ({ success, data: newUser }) {
-              if (!success) {
-                handleFormError();
-                return;
-              }
+          createUser(this, ({ success, data: newUser }) => {
+            if (!success) {
+              handleFormError();
+              return;
+            }
 
-              const thanksBlock = document.getElementById("thanks");
-              const title = thanksBlock.querySelector("h3");
-              const content = thanksBlock.querySelector("p");
+            const thanksBlock = document.getElementById("thanks");
+            const title = thanksBlock.querySelector("h3");
+            const content = thanksBlock.querySelector("p");
 
-              title.innerHTML = sanitize`Thank you ${newUser.firstName} for registering!`;
-              content.innerHTML = sanitize`We sent a confirmation email to <strong>${newUser.email}</strong>`;
+            title.innerHTML = sanitize`Thank you ${newUser.firstName} for registering!`;
+            content.innerHTML = sanitize`We sent a confirmation email to <strong>${newUser.email}</strong>`;
 
-              hide(form);
-              show(thanksBlock);
+            hide(this);
+            show(thanksBlock);
 
-              setTimeout(
-                function () {
-                  show(this);
-                  hide(thanksBlock);
-                }.bind(this),
-                10000
-              );
-            }.bind(this)
-          );
+            setTimeout(() => {
+              show(this);
+              hide(thanksBlock);
+            }, 10000);
+          });
         }
       });
   },
