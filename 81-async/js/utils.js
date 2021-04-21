@@ -14,16 +14,18 @@ export function hide(element) {
   element.classList.add("hidden");
 }
 
-export function createUser(form, callback) {
-  const newUser = Object.values(form.elements).reduce((user, element) => {
-    if (element.id) {
-      user[element.id] = element.value;
-    }
-    return user;
-  }, {});
+export function createUser(form) {
+  return new Promise((resolve) => {
+    const newUser = Object.values(form.elements).reduce((user, element) => {
+      if (element.id) {
+        user[element.id] = element.value;
+      }
+      return user;
+    }, {});
 
-  callback({
-    success: true,
-    data: newUser,
+    resolve({
+      success: true,
+      data: newUser,
+    });
   });
 }
