@@ -22,7 +22,19 @@ const CodelyBackoffice = {
   /*******************************************************************************************************************
    * Common forms functions
    ******************************************************************************************************************/
-  initForms() {
+  async initForms() {
+    function fetchData(select) {
+      const domain =
+        document.domain == "localhost" ? "localhost:8080" : document.domain;
+      const type = select.getAttribute("data-type");
+
+      return fetch(`http://${domain}/data/${type}.json`)
+        .then((response) => response.json())
+        .catch(() => {
+          console.error(`Could not find ${type}.json`);
+        });
+    }
+
     /**
      * Count character in selected fields
      */
@@ -47,24 +59,19 @@ const CodelyBackoffice = {
      */
     const dataLoaders = document.querySelectorAll(".js-load-data");
 
-    dataLoaders.forEach(async function (select) {
-      const domain =
-        document.domain == "localhost" ? "localhost:8080" : document.domain;
-      const type = select.getAttribute("data-type");
-
-      try {
-        const response = await fetch(`http://${domain}/data/${type}.json`);
-        const { data } = await response.json();
+    try {
+      for (const select of dataLoaders) {
+        const { data } = await fetchData(select);
 
         for (const item of data) {
           const option = document.createElement("option");
           option.textContent = item.name;
           select.append(option);
         }
-      } catch {
-        console.error(`Could not find ${type}.json`);
       }
-    });
+    } catch (error) {
+      console.error(error);
+    }
   },
   /*******************************************************************************************************************
    * Filter courses by category
