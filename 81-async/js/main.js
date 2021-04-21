@@ -1,8 +1,6 @@
 import "../css/sakura.css";
 import "../css/custom.css";
 
-import $ from "jquery";
-
 import { countChars, createUser, show, hide } from "./utils";
 
 const CodelyBackoffice = {
@@ -54,18 +52,18 @@ const CodelyBackoffice = {
         document.domain == "localhost" ? "localhost:8080" : document.domain;
       const type = select.getAttribute("data-type");
 
-      // eslint-disable-next-line jquery/no-ajax
-      $.getJSON(`http://${domain}/data/${type}.json`, function ({ data }) {
-        if (data) {
+      fetch(`http://${domain}/data/${type}.json`)
+        .then((response) => response.json())
+        .then(({ data }) => {
           for (let i = 0, len = data.length; i < len; i++) {
             const option = document.createElement("option");
             option.textContent = data[i].name;
             select.append(option);
           }
-        } else {
+        })
+        .catch(() => {
           console.error(`Could not find ${type}.json`);
-        }
-      });
+        });
     });
   },
   /*******************************************************************************************************************
@@ -212,7 +210,7 @@ const CodelyBackoffice = {
         ev.preventDefault();
 
         if (isFormValid()) {
-          createUser(this, ({ success, data: newUser }) => {
+          createUser(this).then(({ success, data: newUser }) => {
             if (!success) {
               handleFormError();
               return;
