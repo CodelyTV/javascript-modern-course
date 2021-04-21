@@ -55,9 +55,9 @@ const CodelyBackoffice = {
       fetch(`http://${domain}/data/${type}.json`)
         .then((response) => response.json())
         .then(({ data }) => {
-          for (const item of data) {
+          for (let i = 0, len = data.length; i < len; i++) {
             const option = document.createElement("option");
-            option.textContent = item.name;
+            option.textContent = data[i].name;
             select.append(option);
           }
         })
