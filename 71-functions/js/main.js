@@ -15,7 +15,7 @@ const CodelyBackoffice = {
      */
     const trigger = document.querySelector(".js-trigger-container");
 
-    trigger.addEventListener("click", function () {
+    trigger.addEventListener("click", () => {
       document
         .getElementById(trigger.getAttribute("rel"))
         .classList.toggle("hidden");
@@ -39,7 +39,7 @@ const CodelyBackoffice = {
 
       char_counter_container.innerHTML = countChars(form_field.value);
 
-      form_field.addEventListener("keyup", function () {
+      form_field.addEventListener("keyup", () => {
         char_counter_container.innerHTML = countChars(form_field.value);
       });
     }
@@ -49,13 +49,13 @@ const CodelyBackoffice = {
      */
     const dataLoaders = document.querySelectorAll(".js-load-data");
 
-    dataLoaders.forEach(function (select) {
+    dataLoaders.forEach((select) => {
       const domain =
         document.domain == "localhost" ? "localhost:8080" : document.domain;
       const type = select.getAttribute("data-type");
 
       // eslint-disable-next-line jquery/no-ajax
-      $.getJSON(`http://${domain}/data/${type}.json`, function ({ data }) {
+      $.getJSON(`http://${domain}/data/${type}.json`, ({ data }) => {
         if (data) {
           for (let i = 0, len = data.length; i < len; i++) {
             const option = document.createElement("option");
@@ -165,7 +165,7 @@ const CodelyBackoffice = {
 
       const formControls = document.querySelectorAll(".js-form-control");
 
-      formControls.forEach(function (control) {
+      formControls.forEach((control) => {
         control.classList.remove("error");
       });
 
