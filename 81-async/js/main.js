@@ -47,23 +47,23 @@ const CodelyBackoffice = {
      */
     const dataLoaders = document.querySelectorAll(".js-load-data");
 
-    dataLoaders.forEach(function (select) {
+    dataLoaders.forEach(async function (select) {
       const domain =
         document.domain == "localhost" ? "localhost:8080" : document.domain;
       const type = select.getAttribute("data-type");
 
-      fetch(`http://${domain}/data/${type}.json`)
-        .then((response) => response.json())
-        .then(({ data }) => {
-          for (let i = 0, len = data.length; i < len; i++) {
-            const option = document.createElement("option");
-            option.textContent = data[i].name;
-            select.append(option);
-          }
-        })
-        .catch(() => {
-          console.error(`Could not find ${type}.json`);
-        });
+      try {
+        const response = await fetch(`http://${domain}/data/${type}.json`);
+        const { data } = await response.json();
+
+        for (let i = 0, len = data.length; i < len; i++) {
+          const option = document.createElement("option");
+          option.textContent = data[i].name;
+          select.append(option);
+        }
+      } catch {
+        console.error(`Could not find ${type}.json`);
+      }
     });
   },
   /*******************************************************************************************************************
@@ -206,31 +206,31 @@ const CodelyBackoffice = {
 
     document
       .getElementById("user_form")
-      .addEventListener("submit", function (ev) {
+      .addEventListener("submit", async function (ev) {
         ev.preventDefault();
 
         if (isFormValid()) {
-          createUser(this).then(({ success, data: newUser }) => {
-            if (!success) {
-              handleFormError();
-              return;
-            }
+          const { success, data: newUser } = await createUser(this);
 
-            const thanksBlock = document.getElementById("thanks");
-            const title = thanksBlock.querySelector("h3");
-            const content = thanksBlock.querySelector("p");
+          if (!success) {
+            handleFormError();
+            return;
+          }
 
-            title.innerHTML = sanitize`Thank you ${newUser.firstName} for registering!`;
-            content.innerHTML = sanitize`We sent a confirmation email to <strong>${newUser.email}</strong>`;
+          const thanksBlock = document.getElementById("thanks");
+          const title = thanksBlock.querySelector("h3");
+          const content = thanksBlock.querySelector("p");
 
-            hide(this);
-            show(thanksBlock);
+          title.innerHTML = sanitize`Thank you ${newUser.firstName} for registering!`;
+          content.innerHTML = sanitize`We sent a confirmation email to <strong>${newUser.email}</strong>`;
 
-            setTimeout(() => {
-              show(this);
-              hide(thanksBlock);
-            }, 10000);
-          });
+          hide(this);
+          show(thanksBlock);
+
+          setTimeout(() => {
+            show(this);
+            hide(thanksBlock);
+          }, 10000);
         }
       });
   },
