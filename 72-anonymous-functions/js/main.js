@@ -30,7 +30,7 @@ const CodelyBackoffice = {
      */
     const contentCounters = document.querySelectorAll(".js-count-content");
 
-    contentCounters.forEach((counter) => {
+    const setUpCharacterCounters = (counter) => {
       const form_field = counter.parentElement.querySelector(
         ".js-form-control"
       );
@@ -38,10 +38,14 @@ const CodelyBackoffice = {
 
       char_counter_container.innerHTML = countChars(form_field.value);
 
-      form_field.addEventListener("keyup", () => {
-        char_counter_container.innerHTML = countChars(form_field.alue);
-      });
-    });
+      const printCharacterCount = () => {
+        char_counter_container.innerHTML = countChars(form_field.vale);
+      };
+
+      form_field.addEventListener("keyup", printCharacterCount);
+    };
+
+    contentCounters.forEach(setUpCharacterCounters);
 
     /**
      * Load select data
@@ -237,7 +241,7 @@ const CodelyBackoffice = {
 /**
  * Init functions
  */
-window.addEventListener("DOMContentLoaded", () => {
+const initApp = () => {
   CodelyBackoffice.initCommon();
 
   if (document.getElementById("category")) {
@@ -249,4 +253,6 @@ window.addEventListener("DOMContentLoaded", () => {
   if (document.getElementById("user_form")) {
     CodelyBackoffice.initUserForm();
   }
-});
+};
+
+window.addEventListener("DOMContentLoaded", initApp);
