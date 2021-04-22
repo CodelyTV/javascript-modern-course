@@ -36,11 +36,11 @@ const CodelyBackoffice = {
       );
       const char_counter_container = counter.querySelector(".js-count-chars");
 
-      char_counter_container.innerHTML = countChars(form_field.value);
-
       const printCharacterCount = () => {
-        char_counter_container.innerHTML = countChars(form_field.vale);
+        char_counter_container.innerHTML = countChars(form_field.value);
       };
+
+      printCharacterCount();
 
       form_field.addEventListener("keyup", printCharacterCount);
     };
