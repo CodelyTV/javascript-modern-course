@@ -58,17 +58,24 @@ const CodelyBackoffice = {
      * Load select data
      */
     const dataLoaders = document.querySelectorAll(".js-load-data");
+    const requests = [];
 
     try {
       for (const select of dataLoaders) {
-        const { data } = await fetchData(select);
+        requests.push(fetchData(select));
+      }
+
+      const responses = await Promise.all(requests);
+
+      responses.forEach(({ data }, index) => {
+        const select = dataLoaders[index];
 
         for (const item of data) {
           const option = document.createElement("option");
           option.textContent = item.name;
           select.append(option);
         }
-      }
+      });
     } catch (error) {
       console.error(error);
     }
