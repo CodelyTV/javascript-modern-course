@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <title>Codely</title>
+    <meta name="description" content="IIFEs" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <div>
+      <h2>Create user</h2>
+      <form id="user_form">
+        <div class="form-field">
+          <label for="firstName">First name</label>
+          <input type="text" id="firstName" class="js-form-control" />
+        </div>
+        <div class="form-field">
+          <label for="lastName">Last name</label>
+          <input type="text" id="lastName" class="js-form-control" />
+        </div>
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input type="text" id="email" class="js-form-control" />
+        </div>
+        <div class="form-field">
+          <label for="dob">Date of birth</label>
+          <input type="date" id="dob" class="datepicker-cmy js-form-control" />
+        </div>
+        <div class="form-field">
+          <label for="country">Country</label>
+          <select
+            id="country"
+            class="js-load-data js-form-control"
+            data-type="countries"
+          >
+            <option value="">Select country</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="bio">Tell us a bit about yourself</label>
+          <textarea id="bio" class="js-form-control"></textarea>
+          <div class="js-count-content">
+            <span class="js-count-chars">0</span>/200
+          </div>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </body>
+</html>
