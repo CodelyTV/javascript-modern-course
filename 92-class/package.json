@@ -19,7 +19,7 @@
     "@babel/core": "^7.13.10",
     "@babel/preset-env": "^7.13.12",
     "@testing-library/cypress": "^7.0.4",
-    "babel-eslint": "^10.1.0",
+    "babel-eslint": "11.0.0-beta.2",
     "babel-loader": "^8.2.2",
     "copy-webpack-plugin": "^8.1.0",
     "core-js": "^3.9.1",
