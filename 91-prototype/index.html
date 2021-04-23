@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <title>Codely</title>
+    <meta name="description" content="IIFEs" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <div>
+      <h2>Create user</h2>
+      <form id="user_form">
+        <div class="js-form-body">
+          <div class="form-field">
+            <label for="firstName">First name</label>
+            <input type="text" id="firstName" class="js-form-control" />
+          </div>
+          <div class="form-field">
+            <label for="lastName">Last name</label>
+            <input type="text" id="lastName" class="js-form-control" />
+          </div>
+          <div class="form-field">
+            <label for="email">Email</label>
+            <input type="text" id="email" class="js-form-control" />
+          </div>
+          <div class="form-field">
+            <label for="dob">Date of birth</label>
+            <input type="date" id="dob" class="js-form-control" />
+          </div>
+          <div class="form-field">
+            <label for="bio">Tell us a bit about yourself</label>
+            <textarea id="bio" class="js-form-control"></textarea>
+          </div>
+          <div class="error hidden js-form-error">
+            There is an error submitting your form, please review the fields and
+            try again
+          </div>
+          <button type="submit">Submit</button>
+        </div>
+        <div class="js-form-thanks hidden">
+          <h3>Thank you!</h3>
+          <p>Please check your inbox.</p>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
