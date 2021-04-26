@@ -47,23 +47,23 @@ const CodelyBackoffice = {
      */
     const dataLoaders = document.querySelectorAll(".js-load-data");
 
-    dataLoaders.forEach(function (select) {
+    dataLoaders.forEach(async function (select) {
       const domain =
         document.domain == "localhost" ? "localhost:8080" : document.domain;
       const type = select.getAttribute("data-type");
 
-      fetch(`http://${domain}/data/${type}.json`)
-        .then((response) => response.json())
-        .then(({ data }) => {
-          for (let i = 0, len = data.length; i < len; i++) {
-            const option = document.createElement("option");
-            option.textContent = data[i].name;
-            select.append(option);
-          }
-        })
-        .catch(() => {
-          console.error(`Could not find ${type}.json`);
-        });
+      try {
+        const response = await fetch(`http://${domain}/data/${type}.json`);
+        const { data } = await response.json();
+
+        for (const item of data) {
+          const option = document.createElement("option");
+          option.textContent = item.name;
+          select.append(option);
+        }
+      } catch {
+        console.error(`Could not find ${type}.json`);
+      }
     });
   },
   /*******************************************************************************************************************
@@ -218,19 +218,19 @@ const CodelyBackoffice = {
 
     document
       .getElementById("user_form")
-      .addEventListener("submit", function (ev) {
+      .addEventListener("submit", async function (ev) {
         ev.preventDefault();
         const form = ev.target;
 
         if (isFormValid()) {
-          createUser(form).then(({ success, data: newUser }) => {
-            if (!success) {
-              handleFormError();
-              return;
-            }
+          const { success, data: newUser } = await createUser(form);
 
-            handleFormSuccess(form, newUser);
-          });
+          if (!success) {
+            handleFormError();
+            return;
+          }
+
+          handleFormSuccess(form, newUser);
         }
       });
   },
