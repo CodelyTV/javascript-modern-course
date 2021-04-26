@@ -31,7 +31,7 @@ const CodelyBackoffice = {
       return fetch(`http://${domain}/data/${type}.json`)
         .then((response) => response.json())
         .catch(() => {
-          console.error(`Could not find ${type}.json`);
+          throw new Error(`Could not find ${type}.json`);
         });
     }
 
