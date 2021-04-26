@@ -60,25 +60,24 @@ const CodelyBackoffice = {
     const dataLoaders = document.querySelectorAll(".js-load-data");
     const requests = [];
 
-    try {
-      for (const select of dataLoaders) {
-        requests.push(fetchData(select));
-      }
-
-      const responses = await Promise.all(requests);
-
-      responses.forEach(({ data }, index) => {
-        const select = dataLoaders[index];
-
-        for (const item of data) {
-          const option = document.createElement("option");
-          option.textContent = item.name;
-          select.append(option);
-        }
-      });
-    } catch (error) {
-      console.error(error);
+    for (const select of dataLoaders) {
+      requests.push(fetchData(select));
     }
+
+    const responses = await Promise.all(requests).catch((e) => {
+      console.error(e);
+      return [];
+    });
+
+    responses.forEach(({ data }, index) => {
+      const select = dataLoaders[index];
+
+      for (const item of data) {
+        const option = document.createElement("option");
+        option.textContent = item.name;
+        select.append(option);
+      }
+    });
   },
   /*******************************************************************************************************************
    * Filter courses by category
